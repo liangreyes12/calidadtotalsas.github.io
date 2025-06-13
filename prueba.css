@@ -1,0 +1,134 @@
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Colores base */
+:root {
+  --primary-color: #0056b3;
+  --primary-light: #e6f0ff;
+  --secondary-color: #ffffff;
+  --text-color: #333;
+  --success-color: #28a745;
+  --error-color: #dc3545;
+}
+
+/* Fondo general */
+body {
+  background-color: var(--primary-light);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Encabezado */
+header {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Contenedor principal */
+.container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
+}
+
+/* Formulario */
+form {
+  background-color: var(--secondary-color);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 86, 179, 0.2);
+  max-width: 500px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+form:hover {
+  transform: translateY(-2px);
+}
+
+form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+form input[type="text"],
+form textarea,
+form input[type="file"] {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1.5rem;
+  border: 2px solid var(--primary-color);
+  border-radius: 8px;
+  background-color: var(--primary-light);
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+button {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #003d80;
+}
+
+/* Estado */
+#estado {
+  margin-top: 1rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  text-align: center;
+}
+
+/* Footer opcional */
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.875rem;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  margin-top: auto;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  form {
+    padding: 1rem;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+}

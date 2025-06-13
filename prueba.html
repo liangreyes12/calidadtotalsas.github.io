@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Formulario con Ubicación</title>
+  <link rel="stylesheet" href="prueba.css" />
+</head>
+<body>
+  <header>
+    <h1>Reporte de Infracción</h1>
+  </header>
+
+  <div class="container">
+    <form id="reporteForm">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" required />
+
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" name="descripcion" required></textarea>
+
+      <label for="foto">Foto:</label>
+      <input type="file" id="foto" name="foto" accept="image/*" required />
+
+      <input type="hidden" id="lat" name="lat">
+      <input type="hidden" id="lng" name="lng">
+
+      <button type="submit">Enviar Reporte</button>
+    </form>
+
+    <p id="estado"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
