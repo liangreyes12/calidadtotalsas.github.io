@@ -18,7 +18,11 @@ Bienvenido al proyecto **Calidad Total S.A.S**: una aplicación web intuitiva, m
 
 ## 🎬 Vista previa
 
-![Vista previa del formulario](https://liangreyes12.github.io/calidadtotalsas.github.io/)
+<p align="center">
+  <a href="https://liangreyes12.github.io/calidadtotalsas.github.io/" target="_blank">
+    <img src="https://img.shields.io/badge/🛰️ Ver_formulario_en_vivo-0056b3?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Formulario en vivo">
+  </a>
+</p>
 
 ---
 
@@ -40,3 +44,7 @@ Bienvenido al proyecto **Calidad Total S.A.S**: una aplicación web intuitiva, m
 - **Font Awesome** (íconos)
 - **Google Apps Script** (backend sin servidor)
 - **Google Sheets** & **Google Drive API**
+
+---
+### Creador:
+*Liang José Reyes Luzardo - Tecnologo en Analisis y de Desarrollo de Software.*
