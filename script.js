@@ -1,82 +1,62 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("reporteForm");
-
-  // Obtener ubicación
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        document.getElementById("lat").value = pos.coords.latitude;
-        document.getElementById("lng").value = pos.coords.longitude;
-      },
-      () => {
-        Swal.fire({
-          icon: "warning",
-          title: "Ubicación",
-          text: "No se pudo obtener la ubicación.",
-        });
-      }
-    );
-  } else {
-    Swal.fire({
-      icon: "warning",
-      title: "Ubicación no soportada",
-      text: "Tu navegador no admite geolocalización.",
-    });
-  }
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    Swal.fire({
-      title: "Enviando...",
-      text: "Por favor espera",
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      didOpen: () => {
-        Swal.showLoading();
-      }
-    });
-
-    const formData = new FormData(form);
-    const file = form.foto.files[0];
-
-    const enviarFormulario = async () => {
-      try {
-        const response = await fetch(
-          "https://script.google.com/macros/s/AKfycbzOd_elKuvqcBhYAxwc3-gAduLLpoGi4QeXHeHcXvw_LddJeNd0NCmqamw24CIk8g8L0w/exec",
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        const result = await response.text();
-
-        Swal.fire({
-          icon: result.includes("✅") ? "success" : "error",
-          title: result.includes("✅") ? "¡Éxito!" : "Error",
-          text: result,
-        });
-
-        if (result.includes("✅")) form.reset();
-      } catch (err) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "No se pudo enviar el formulario.",
-        });
-      }
-    };
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        formData.set("foto", reader.result);
-        enviarFormulario();
-      };
-      reader.readAsDataURL(file);
-    } else {
-      enviarFormulario();
+window.onload = () => {
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      document.getElementById("lat").value = position.coords.latitude;
+      document.getElementById("lng").value = position.coords.longitude;
+    },
+    (err) => {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
     }
-  });
+  );
+};
+
+
+document.getElementById("reporteForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const nombre = form.nombre.value;
+  const descripcion = form.descripcion.value;
+  const lat = document.getElementById("lat").value;
+  const lng = document.getElementById("lng").value;
+  const fotoInput = document.getElementById("foto");
+
+  const file = fotoInput.files[0];
+  const reader = new FileReader();
+
+  reader.onloadend = async function () {
+    const fotoBase64 = reader.result;
+
+    const data = new URLSearchParams();
+    data.append("nombre", nombre);
+    data.append("descripcion", descripcion);
+    data.append("lat", lat);
+    data.append("lng", lng);
+    data.append("foto", fotoBase64);
+
+    try {
+      const response = await fetch("https://script.google.com/macros/s/AKfycbyWMzBSNgtRPS9_PoAkdiIgkXrfnsmD_RzyhboETZE6ZMqp64Ozav7tuPPXjtBWK2b83w/exec", {
+        method: "POST",
+        body: data,
+      });
+
+      const result = await response.json();
+
+      if (result.status === "success") {
+        Swal.fire("¡Éxito!", result.message, "success");
+        form.reset();
+      } else {
+        Swal.fire("Error", result.message, "error");
+      }
+    } catch (err) {
+      Swal.fire("Error", "No se pudo enviar el reporte", "error");
+      console.error(err);
+    }
+  };
+
+  if (file) {
+    reader.readAsDataURL(file);
+  } else {
+    Swal.fire("Error", "Debes seleccionar una imagen", "error");
+  }
 });
