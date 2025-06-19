@@ -1,0 +1,33 @@
+// CONFIGURA ESTOS IDs CON LOS TUYOS
+const FOLDER_ID = "15wfEOd0KBWEqS3ISwB1YoDhXISkAeF1V";
+const SHEET_ID = "1dZB1E3-5tCCAYOPc5X1Ip7ZQuoKObeLsXGNJ9SIPhSQ";
+
+function doPost(e) {
+  try {
+    const sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
+
+    const { nombre, descripcion, lat, lng } = e.parameter;
+    const blob = e.parameter.foto ? Utilities.base64Decode(e.parameter.foto.split(",")[1]) : null;
+    const contentType = e.parameter.foto ? e.parameter.foto.match(/^data:(image\/[a-z]+);base64,/)[1] : null;
+
+    let imageUrl = "";
+
+    if (blob && contentType) {
+      const file = DriveApp.getFolderById(FOLDER_ID).createFile(Utilities.newBlob(blob, contentType, `${nombre}-${Date.now()}`));
+      imageUrl = file.getUrl();
+    }
+
+    sheet.appendRow([new Date(), nombre, descripcion, lat, lng, imageUrl]);
+
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "success",
+      message: "Reporte enviado correctamente"
+    })).setMimeType(ContentService.MimeType.JSON);
+
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "error",
+      message: error.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
